@@ -1,17 +1,18 @@
-- name: updating route53 records
+# copied from daws86s git repository
+- name: create ec2 and r53
   hosts: local
   connection: local
   vars:
     ami_id: ami-09c813fb71547fc4f
-    sg_id: sg-0caa92da7b80302bc
-    zone_id: "Z0732355102QE6GB8XDYY"
+    sg_id: sg-07c8acf3fa6b923fa # replace with your SG ID
+    zone_id: "Z0732355102QE6GB8XDYY" # replace with your ID
     domain_name: "sgrdevsecops.fun"
     # we can pass instances through command line using -e
-    # instances:
+    # instances: 
     # - mongodb
     # - redis
-    # - rabbitmq
     # - mysql
+    # - rabbitmq
   tasks:
   - name: create ec2 instance
     amazon.aws.ec2_instance:
@@ -20,7 +21,7 @@
       security_group: "{{ sg_id }}"
       image_id: "{{ ami_id }}"
       tags:
-        name: "{{ item }}"
+        Name: "{{ item }}"
     loop: "{{ instances }}"
     register: ec2_output
 
@@ -38,23 +39,23 @@
   #     msg: "{{ item.instances[0].private_ip_address }}"
   #   loop: "{{ ec2_output.results }}"
 
-  - name: create route53 module
+  - name: create route53 record
     amazon.aws.route53:
       state: present
       zone: "{{ domain_name }}"
-      record: "{{ item.item }}.{{ domain_name }}" # mongodb.sgrdevsecops.fun
+      record: "{{ item.item }}.{{ domain_name }}" # mongodb.daws86s.fun
       type: A
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
       overwrite: true
     loop: "{{ ec2_output.results }}"
 
-# we are creating one record with public only for frontend
+  # we are creating one record with public only for frontend
   - name: create route53 record for frontend
     amazon.aws.route53:
       state: present
       zone: "{{ domain_name }}"
-      record: "{{ domain_name }}" # sgrdevsecops.fun
+      record: "{{ domain_name }}" # daws86s.fun
       type: A
       ttl: 1
       value: "{{ item.instances[0].public_ip_address }}"

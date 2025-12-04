@@ -1,6 +1,7 @@
-- name: setup {{ component }} server
+# copied from daws86s git repository
+- name: "setup {{ component }} server"
   hosts: "{{ component }}"
   connection: local
   become: yes
-  roles: 
+  roles:
   - "{{ component }}"

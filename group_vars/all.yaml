@@ -1,9 +1,10 @@
-MONGODB_HOST: mongodb.sgrdevsecops.fun
-REDIS_HOST: redis.sgrdevsecops.fun
-CATALOGUE_HOST: catalogue.sgrdevsecops.fun
-CART_HOST: cart.sgrdevsecops.fun
-USER_HOST: user.sgrdevsecops.fun
-RABBITMQ_HOST: rabbitmq.sgrdevsecops.fun
-MYSQL_HOST: mysql.sgrdevsecops.fun
-SHIPPING_HOST: shipping.sgrdevsecops.fun
-PAYMENT_HOST: payment.sgrdevsecops.fun
+# copied from daws86s git repository
+MONGODB_HOST: mongodb-{{ env }}.sgrdevsecops.fun # mongodb-dev.daws86s.fun
+REDIS_HOST: redis-{{ env }}.sgrdevsecops.fun
+CATALOGUE_HOST: catalogue.backend-alb-{{ env }}.sgrdevsecops.fun
+CART_HOST: cart.backend-alb-{{ env }}.sgrdevsecops.fun
+USER_HOST: user.backend-alb-{{ env }}.sgrdevsecops.fun
+RABBITMQ_HOST: rabbitmq-{{ env }}.sgrdevsecops.fun
+MYSQL_HOST: mysql-{{ env }}.sgrdevsecops.fun
+SHIPPING_HOST: shipping.backend-alb-{{ env }}.sgrdevsecops.fun
+PAYMENT_HOST: payment.backend-alb-{{ env }}.sgrdevsecops.fun
